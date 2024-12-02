@@ -206,10 +206,9 @@ internal static class Program {
             else if (key.Key == ConsoleKey.Enter) work = false;
             else {
                 for (var i = 0; i < (length < keys.Length ? length : keys.Length); i++) {
-                    if (key.Key == keys[i]) {
-                        selectedOption = i;
-                        break;
-                    }
+                    if (key.Key != keys[i]) continue;
+                    selectedOption = i;
+                    break;
                 }
             }
             Console.ResetColor();
@@ -282,11 +281,10 @@ internal static class Program {
     }
 
     private static int[] ShellSort(int[] array) {
-        int[] tempArray = [];
         LoadBar sortBar = new LoadBar("Сортировка массива.", 2, array.Length);
         for (var i = 2; i < array.Length; i *= 2)
         {
-            tempArray = [];
+            int[] tempArray = [];
             foreach (var subArray in SplitArray(array, i))
                 tempArray = tempArray.Concat(InsertionSort(subArray, false)).ToArray();
             sortBar.RenewIteration(i);
@@ -392,6 +390,14 @@ internal static class Program {
         }
         
         return arrayString;
+    }
+    
+    private static string PrintArray(int[] array, int highlight) {
+        return PrintArray(array, new int[] {highlight});
+    }
+    
+    private static string PrintArray(int[] array) {
+        return PrintArray(array, null);
     }
 }
 
